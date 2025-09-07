@@ -1,40 +1,41 @@
-﻿using System;
+using System;
 using System.Linq;
 
-public enum StatusCartao
-{
-    Ativo,
-    Bloqueado
-}
+
 
 
 public class CartaoTransporte
 {
-    
-    private const decimal LIMITE_RECARGA_MAXIMO = 200.0m;
+    public enum StatusCartao        
+    {
+        Ativo,
+        Bloqueado
+    }
+
+    private const decimal LIMITE_RECARGA_MAXIMO = 200.0m; 
     private const int HISTORICO_TAMANHO = 5;
 
     private decimal _saldo;
     private decimal[] _historicoRecargas;
     private StatusCartao _status;
 
-    
-    public string NumeroCartao { get; }
 
-    
-    public decimal Saldo
+    public string NumeroCartao { get; }         
+
+
+    public decimal Saldo            
     {
         get { return _saldo; }
     }
 
-    
-    public StatusCartao Status
+
+    public StatusCartao Status              //invariavel status cartao
     {
         get { return _status; }
         private set { _status = value; }
     }
 
-    public CartaoTransporte(string numeroCartao)
+    public CartaoTransporte(string numeroCartao)  //invariavel numero do cartao
     {
         if (string.IsNullOrWhiteSpace(numeroCartao))
         {
@@ -47,7 +48,7 @@ public class CartaoTransporte
         _historicoRecargas = new decimal[HISTORICO_TAMANHO];
     }
 
-    public void Recarregar(decimal valor)
+    public void Recarregar(decimal valor)           //invariavel limite de carga
     {
         if (Status == StatusCartao.Bloqueado)
         {
@@ -76,7 +77,7 @@ public class CartaoTransporte
             throw new ArgumentException("A tarifa deve ser maior que zero.", nameof(tarifa));
         }
 
-        if (_saldo < tarifa)
+        if (_saldo < tarifa)  //invariavel saldo não pode ser negativo
         {
             throw new InvalidOperationException("Saldo insuficiente para pagar a tarifa.");
         }
@@ -108,12 +109,11 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("--- Demonstração da Classe CartaoTransporte ---");
-        Console.WriteLine();
+        
 
         try
         {
-            Console.WriteLine("### Cenário de Sucesso: Recarga e Uso Válidos");
+            Console.WriteLine("Cenário de Sucesso: Recarga e Uso Válidos");
             var cartao1 = new CartaoTransporte("001");
             Console.WriteLine($"Cartão {cartao1.NumeroCartao} criado. Saldo inicial: {cartao1.Saldo:C}");
 
@@ -129,8 +129,6 @@ public class Program
         {
             Console.WriteLine($"Ocorreu um erro inesperado: {ex.Message}");
         }
-
-        Console.WriteLine("### Cenários de Falha (Violações de Invariantes)");
 
         try
         {
@@ -178,4 +176,3 @@ public class Program
         Console.WriteLine("\n--- Fim da Demonstração ---");
     }
 }
-
