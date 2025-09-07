@@ -19,23 +19,19 @@ public class CartaoTransporte
     private decimal[] _historicoRecargas;
     private StatusCartao _status;
 
-
     public string NumeroCartao { get; }         
 
-
-    public decimal Saldo            //Propriedade Completa
+    public decimal Saldo                    //Propriedade Completa
     {
         get { return _saldo; }
     }
 
-
-    public StatusCartao Status              //invariavel status cartao
+    public StatusCartao Status              //Invariantes status cartao
     {                                       //Propriedade Completa
         get { return _status; }
         private set { _status = value; }
     }
-
-    public CartaoTransporte(string numeroCartao)         //invariavel numero do cartao
+    public CartaoTransporte(string numeroCartao)      //Construtor da Classe   //Invariantes numero do cartao //Auto Property
     {                                                    
         if (string.IsNullOrWhiteSpace(numeroCartao))
         {
@@ -48,8 +44,8 @@ public class CartaoTransporte
         _historicoRecargas = new decimal[HISTORICO_TAMANHO];
     }
 
-    public void Recarregar(decimal valor)           //invariavel limite de carga
-    {                                               //Propriedade Completa
+    public void Recarregar(decimal valor)           //Invariantes bloqueio cartao
+    {                                               
         if (Status == StatusCartao.Bloqueado)
         {
             throw new InvalidOperationException("Não é possível recarregar um cartão bloqueado.");
@@ -57,7 +53,8 @@ public class CartaoTransporte
 
         if (valor <= 0 || valor > LIMITE_RECARGA_MAXIMO)
         {
-            throw new ArgumentException($"O valor da recarga deve ser maior que zero e não pode exceder R$ {LIMITE_RECARGA_MAXIMO}.", nameof(valor));
+            throw new ArgumentException($"O valor da recarga deve ser maior que zero e não pode exceder R$ " +
+                $"{LIMITE_RECARGA_MAXIMO}.", nameof(valor));
         }
 
         _saldo += valor;
@@ -77,7 +74,7 @@ public class CartaoTransporte
             throw new ArgumentException("A tarifa deve ser maior que zero.", nameof(tarifa));
         }
 
-        if (_saldo < tarifa)  //invariavel saldo não pode ser negativo
+        if (_saldo < tarifa)  //Invariantes saldo não pode ser negativo
         {
             throw new InvalidOperationException("Saldo insuficiente para pagar a tarifa.");
         }
