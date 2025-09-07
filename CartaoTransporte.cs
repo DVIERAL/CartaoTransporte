@@ -10,7 +10,7 @@ public enum StatusCartao
 
 public class CartaoTransporte
 {
-    // Campos privados para encapsular o estado
+    
     private const decimal LIMITE_RECARGA_MAXIMO = 200.0m;
     private const int HISTORICO_TAMANHO = 5;
 
@@ -18,27 +18,22 @@ public class CartaoTransporte
     private decimal[] _historicoRecargas;
     private StatusCartao _status;
 
-    // Propriedade imutável, definida no construtor
+    
     public string NumeroCartao { get; }
 
-    // Propriedade completa para controlar o acesso ao saldo
+    
     public decimal Saldo
     {
         get { return _saldo; }
     }
 
-    // Propriedade para o status, com set privado para controle interno
+    
     public StatusCartao Status
     {
         get { return _status; }
         private set { _status = value; }
     }
 
-    /// <summary>
-    /// Construtor principal para inicializar um novo cartão.
-    /// Valida o número do cartão para garantir um estado inicial válido.
-    /// </summary>
-    /// <param name="numeroCartao">Número único de identificação do cartão.</param>
     public CartaoTransporte(string numeroCartao)
     {
         if (string.IsNullOrWhiteSpace(numeroCartao))
@@ -52,11 +47,6 @@ public class CartaoTransporte
         _historicoRecargas = new decimal[HISTORICO_TAMANHO];
     }
 
-    /// <summary>
-    /// Recarrega um valor no cartão.
-    /// Validações: valor > 0, valor <= limite, e cartão ativo.
-    /// </summary>
-    /// <param name="valor">Valor a ser recarregado.</param>
     public void Recarregar(decimal valor)
     {
         if (Status == StatusCartao.Bloqueado)
@@ -73,11 +63,7 @@ public class CartaoTransporte
         AdicionarHistoricoRecarga(valor);
     }
 
-    /// <summary>
-    /// Paga uma tarifa com o cartão.
-    /// Validações: cartão ativo, tarifa > 0, e saldo suficiente.
-    /// </summary>
-    /// <param name="tarifa">Valor da tarifa a ser paga.</param>
+
     public void PagarTarifa(decimal tarifa)
     {
         if (Status == StatusCartao.Bloqueado)
@@ -98,23 +84,16 @@ public class CartaoTransporte
         _saldo -= tarifa;
     }
 
-    /// <summary>
-    /// Bloqueia o cartão.
-    /// </summary>
     public void Bloquear()
     {
         Status = StatusCartao.Bloqueado;
     }
 
-    /// <summary>
-    /// Retorna uma cópia do array de histórico para evitar aliasing.
-    /// </summary>
     public decimal[] ObterHistoricoRecargas()
     {
         return (decimal[])_historicoRecargas.Clone();
     }
 
-    // Método privado para gerenciar o array de histórico
     private void AdicionarHistoricoRecarga(decimal valor)
     {
         for (int i = _historicoRecargas.Length - 1; i > 0; i--)
@@ -125,7 +104,6 @@ public class CartaoTransporte
     }
 }
 
-// Ponto de entrada do programa
 public class Program
 {
     public static void Main(string[] args)
@@ -133,7 +111,6 @@ public class Program
         Console.WriteLine("--- Demonstração da Classe CartaoTransporte ---");
         Console.WriteLine();
 
-        // Cenário 1: Demonstração de Sucesso
         try
         {
             Console.WriteLine("### Cenário de Sucesso: Recarga e Uso Válidos");
@@ -153,10 +130,8 @@ public class Program
             Console.WriteLine($"Ocorreu um erro inesperado: {ex.Message}");
         }
 
-        // Cenário 2: Demonstração de Falhas (Exceções Esperadas)
         Console.WriteLine("### Cenários de Falha (Violações de Invariantes)");
 
-        // Falha 1: Saldo insuficiente
         try
         {
             Console.WriteLine("\nCenário de Falha 1: Saldo Insuficiente");
@@ -172,7 +147,6 @@ public class Program
             Console.WriteLine($"ERRO (esperado): {ex.Message}");
         }
 
-        // Falha 2: Recarga com valor inválido
         try
         {
             Console.WriteLine("\nCenário de Falha 2: Recarga com Valor Negativo");
@@ -186,7 +160,6 @@ public class Program
             Console.WriteLine($"ERRO (esperado): {ex.Message}");
         }
 
-        // Falha 3: Operação em cartão bloqueado
         try
         {
             Console.WriteLine("\nCenário de Falha 3: Operação em Cartão Bloqueado");
@@ -205,3 +178,4 @@ public class Program
         Console.WriteLine("\n--- Fim da Demonstração ---");
     }
 }
+
