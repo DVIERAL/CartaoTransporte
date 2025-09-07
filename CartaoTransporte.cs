@@ -23,20 +23,20 @@ public class CartaoTransporte
     public string NumeroCartao { get; }         
 
 
-    public decimal Saldo            
+    public decimal Saldo            //Propriedade Completa
     {
         get { return _saldo; }
     }
 
 
     public StatusCartao Status              //invariavel status cartao
-    {
+    {                                       //Propriedade Completa
         get { return _status; }
         private set { _status = value; }
     }
 
-    public CartaoTransporte(string numeroCartao)  //invariavel numero do cartao
-    {
+    public CartaoTransporte(string numeroCartao)         //invariavel numero do cartao
+    {                                                    
         if (string.IsNullOrWhiteSpace(numeroCartao))
         {
             throw new ArgumentException("O número do cartão não pode ser nulo ou vazio.", nameof(numeroCartao));
@@ -49,7 +49,7 @@ public class CartaoTransporte
     }
 
     public void Recarregar(decimal valor)           //invariavel limite de carga
-    {
+    {                                               //Propriedade Completa
         if (Status == StatusCartao.Bloqueado)
         {
             throw new InvalidOperationException("Não é possível recarregar um cartão bloqueado.");
