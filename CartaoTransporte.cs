@@ -114,11 +114,12 @@ public class Program
             var cartao1 = new CartaoTransporte("001");
             Console.WriteLine($"Cartão {cartao1.NumeroCartao} criado. Saldo inicial: {cartao1.Saldo:C}");
 
-            cartao1.Recarregar(30.0m);
+            
             Console.WriteLine($"Recarregando R$ 30,00. Saldo atual: {cartao1.Saldo:C}");
+            cartao1.Recarregar(30.0m);
 
-            cartao1.PagarTarifa(5.0m);
             Console.WriteLine($"Pagando R$ 5,00 de tarifa. Saldo atual: {cartao1.Saldo:C}");
+            cartao1.PagarTarifa(5.0m);
 
             Console.WriteLine();
         }
@@ -129,13 +130,13 @@ public class Program
 
         try
         {
-            Console.WriteLine("\nCenário de Falha 1: Saldo Insuficiente");
+            
             var cartao2 = new CartaoTransporte("002");
             cartao2.Recarregar(2.0m);
             Console.WriteLine($"Cartão {cartao2.NumeroCartao} recarregado com R$ 2,00. Saldo: {cartao2.Saldo:C}");
 
             cartao2.PagarTarifa(5.0m);
-            Console.WriteLine("Esta linha não deveria ser executada.");
+            
         }
         catch (InvalidOperationException ex)
         {
@@ -144,11 +145,11 @@ public class Program
 
         try
         {
-            Console.WriteLine("\nCenário de Falha 2: Recarga com Valor Negativo");
+            
             var cartao3 = new CartaoTransporte("003");
-
+            Console.WriteLine($"Cartão {cartao3.NumeroCartao} recarregado com R$ -10,00. Saldo: {cartao3.Saldo:C}");
             cartao3.Recarregar(-10.0m);
-            Console.WriteLine("Esta linha não deveria ser executada.");
+            
         }
         catch (ArgumentException ex)
         {
@@ -157,13 +158,13 @@ public class Program
 
         try
         {
-            Console.WriteLine("\nCenário de Falha 3: Operação em Cartão Bloqueado");
+           
             var cartao4 = new CartaoTransporte("004");
             cartao4.Bloquear();
             Console.WriteLine($"Cartão {cartao4.NumeroCartao} bloqueado.");
 
             cartao4.Recarregar(10.0m);
-            Console.WriteLine("Esta linha não deveria ser executada.");
+            
         }
         catch (InvalidOperationException ex)
         {
